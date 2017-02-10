@@ -11,9 +11,8 @@
     apt: name=tomcat7 state=installed update_cache=yes
     
   - name: remove web dir contents
-     file: path='/var/lib/tomcat7/webapps/my-app' state=absent
-     with_fileglob:
-       - /var/lib/tomcat7/webapps/*
+    file: path="/var/lib/tomcat7/webapps/my-app" state=absent
+   
 
   - name: deploy my-app
     copy: src=/home/vagrant/ws/Test1/my-app/target/my-app.war dest=/var/lib/tomcat7/webapps/my-app.war mode=644 owner=root group=root
