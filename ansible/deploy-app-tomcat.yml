@@ -1,0 +1,24 @@
+---
+- hosts:  web1
+  sudo: yes
+  gather_facts: no
+
+  tasks:
+  - name: upgarde apt packages
+    apt: upgrade=yes update_cache=yes
+
+  - name: install tomcat7
+    apt: name=tomcat7 state=installed update_cache=yes
+
+  - name: deploy my-app
+    copy: src=/home/vagrant/ws/Test1/my-app/target/my-app.war dest=/var/lib/tomcat7/webapps/my-app.war mode=644 owner=root group=root
+    notify: restart tomcat7
+
+  - name: start tomcat7
+    service: name=tomcat7 state=started
+
+
+  handlers:
+
+  - name: restart tomcat7
+    service: name=tomcat7 state=restarted
